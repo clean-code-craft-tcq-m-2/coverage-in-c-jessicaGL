@@ -30,3 +30,5 @@ void checkAndAlert(
 
 void sendToController(BreachType breachType);
 void sendToEmail(BreachType breachType);
+char * Format_sendToEmail(BreachType breachType);
+char* Format_sendToController_Test(BreachType breachType);

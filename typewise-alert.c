@@ -1,5 +1,6 @@
 #include "typewise-alert.h"
 #include <stdio.h>
+#include <string.h>
 
 BreachType inferBreach(double value, double lowerLimit, double upperLimit) {
   if(value < lowerLimit) {
@@ -17,15 +18,12 @@ BreachType classifyTemperatureBreach(
   int upperLimit = 0;
   switch(coolingType) {
     case PASSIVE_COOLING:
-      lowerLimit = 0;
       upperLimit = 35;
       break;
     case HI_ACTIVE_COOLING:
-      lowerLimit = 0;
       upperLimit = 45;
       break;
-    case MED_ACTIVE_COOLING:
-      lowerLimit = 0;
+    default:
       upperLimit = 40;
       break;
   }
@@ -49,7 +47,7 @@ void checkAndAlert(
   }
 }
 
-void sendToController(BreachType breachType) {
+/*void sendToController(BreachType breachType) {
   const unsigned short header = 0xfeed;
   printf("%x : %x\n", header, breachType);
 }
@@ -65,7 +63,64 @@ void sendToEmail(BreachType breachType) {
       printf("To: %s\n", recepient);
       printf("Hi, the temperature is too high\n");
       break;
-    case NORMAL:
+    default:
+      printf("To: %s\n", recepient);
+      printf("Hi, the temperature is normal, everything cool :)\n");
+      break;
+  }*/
+
+char* Format_sendToController_Test(BreachType breachType) {
+  //const unsigned short header = 0xfeed;
+  static char buffer[20]= "0xfeed :";
+  static char strBreachType[9];
+  switch(breachType) {
+    case TOO_LOW:
+	  strcpy(strBreachType, " TOO_LOW");
+	  strcat(buffer,strBreachType);
+      break;
+    case TOO_HIGH:
+	  strcpy(strBreachType," TOO_HIGH");
+	  strcat(buffer,strBreachType);
+      break;
+    default:
+	  strcpy(strBreachType," NORMAL");
+	  strcat(buffer,strBreachType);
       break;
   }
+  
+  return buffer;
 }
+
+void sendToController(BreachType breachType) {
+  printf("%s",Format_sendToController_Test(breachType));
+}
+
+char * Format_sendToEmail(BreachType breachType)
+{
+  //const char* recepient = "a.b@c.com";
+  static char message[70]= "To: a.b@c.com\n";
+  static char alarm[50];
+  
+  switch(breachType) {
+    case TOO_LOW:
+	    strcpy(alarm,"Hi, the temperature is too low\n");
+	    strcat(message,alarm);
+      break;
+    case TOO_HIGH:
+      strcpy(alarm,"Hi, the temperature is too high\n");
+	    strcat(message,alarm);
+      break;
+    default:
+	    strcpy(alarm,"Hi, the temperature is normal, everything cool :)\n");
+	    strcat(message,alarm);
+      break;
+  }
+  return message;
+}
+
+
+void sendToEmail(BreachType breachType) {
+  printf("%s",Format_sendToEmail(breachType));
+}
+
+
