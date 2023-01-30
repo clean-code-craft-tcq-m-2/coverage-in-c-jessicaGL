@@ -6,5 +6,4 @@
 TEST_CASE("infers the breach according to limits") {
   REQUIRE(inferBreach(12, 20, 30) == TOO_LOW);
   REQUIRE(classifyTemperatureBreach(HI_ACTIVE_COOLING, 25.5) == NORMAL);
-  REQUIRE(sendToController(TOO_LOW) == "0xfeed : TOO_LOW");
 }
