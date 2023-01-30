@@ -68,23 +68,22 @@ void sendToEmail(BreachType breachType) {
       printf("Hi, the temperature is normal, everything cool :)\n");
       break;
   }*/
-}
 
 char* Format_sendToController_Test(BreachType breachType) {
-  const unsigned short header = 0xfeed;
+  //const unsigned short header = 0xfeed;
   static char buffer[20]= "0xfeed :";
   static char strBreachType[9];
   switch(breachType) {
     case TOO_LOW:
-	  strBreachType = " TOO_LOW";
+	  strcpy(strBreachType, " TOO_LOW");
 	  strcat(buffer,strBreachType);
       break;
     case TOO_HIGH:
-	  strBreachType = " TOO_HIGH";
+	  strcpy(strBreachType," TOO_HIGH");
 	  strcat(buffer,strBreachType);
       break;
     default:
-	  strBreachType = " NORMAL";
+	  strcpy(strBreachType," NORMAL");
 	  strcat(buffer,strBreachType);
       break;
   }
@@ -93,7 +92,7 @@ char* Format_sendToController_Test(BreachType breachType) {
 }
 
 void sendToController(BreachType breachType) {
-  printf("%x",Format_sendToController_Test(breachType));
+  printf("%s",Format_sendToController_Test(breachType));
 }
 
 char * Format_sendToEmail(BreachType breachType)
@@ -104,15 +103,15 @@ char * Format_sendToEmail(BreachType breachType)
   
   switch(breachType) {
     case TOO_LOW:
-	    alarm = "Hi, the temperature is too low\n";
+	    strcpy(alarm,"Hi, the temperature is too low\n");
 	    strcat(message,alarm);
       break;
     case TOO_HIGH:
-      alarm = "Hi, the temperature is too high\n";
+      strcpy(alarm,"Hi, the temperature is too high\n");
 	    strcat(message,alarm);
       break;
     default:
-	    alarm = "Hi, the temperature is normal, everything cool :)\n";
+	    strcpy(alarm,"Hi, the temperature is normal, everything cool :)\n");
 	    strcat(message,alarm);
       break;
   }
@@ -121,7 +120,7 @@ char * Format_sendToEmail(BreachType breachType)
 
 
 void sendToEmail(BreachType breachType) {
-  printf("%x",Format_sendToEmail(breachType));
+  printf("%s",Format_sendToEmail(breachType));
 }
 
 
